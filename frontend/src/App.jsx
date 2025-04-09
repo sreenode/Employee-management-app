@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const axiosInstance = axios.create({
+    baseURL: "/api"
+  });  
+
 function App() {
   const [employees, setEmployees] = useState([]);
   const [form, setForm] = useState({ name: "", email: "", position: "" });
@@ -10,12 +14,12 @@ function App() {
   }, []);
 
   const fetchEmployees = async () => {
-    const res = await axios.get("/api/employees");
+    const res = await axiosInstance.get("/employees");
     setEmployees(res.data);
   };
 
   const addEmployee = async () => {
-    await axios.post("/api/employees", form);
+    await axiosInstance.post("/employees", form);
     setForm({ name: "", email: "", position: "" });
     fetchEmployees();
   };
